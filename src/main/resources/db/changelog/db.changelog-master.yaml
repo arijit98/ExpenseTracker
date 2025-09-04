@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: system
+      comment: Initial empty changelog
+      changes:
+        - sql:
+            sql: "-- Initial empty changelog for ExpenseTracker application"
+
+  - include:
+      file: db/changelog/001-create-user-table.yaml

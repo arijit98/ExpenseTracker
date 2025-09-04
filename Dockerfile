@@ -1,0 +1,46 @@
+# Multi-stage build for optimized production image
+FROM openjdk:21-jdk-slim AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy gradle wrapper and build files
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+
+# Make gradlew executable
+RUN chmod +x ./gradlew
+
+# Copy source code
+COPY src src
+
+# Build the application (excluding tests for faster builds)
+RUN ./gradlew build -x test --no-daemon
+
+# Production stage
+FROM openjdk:21-jdk-slim
+
+# Create app user for security
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built JAR from builder stage
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+# Change ownership to app user
+RUN chown -R appuser:appuser /app
+USER appuser
+
+# Expose port
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8080/actuator/health || exit 1
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]

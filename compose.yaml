@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=expensetracker'
+      - 'POSTGRES_PASSWORD=pass'
+      - 'POSTGRES_USER=ari'
+    ports:
+      - '5432'
