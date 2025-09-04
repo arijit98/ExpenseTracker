@@ -59,6 +59,7 @@ jobs:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/expensetracker_test
         SPRING_DATASOURCE_USERNAME: test_user
         SPRING_DATASOURCE_PASSWORD: test_pass
+        SPRING_PROFILES_ACTIVE: test
 
     - name: Generate test report
       uses: dorny/test-reporter@v1
