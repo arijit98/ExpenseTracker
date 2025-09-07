@@ -50,8 +50,36 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
+    - name: Install PostgreSQL client
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y postgresql-client
+
     - name: Make gradlew executable
       run: chmod +x ./gradlew
+
+    - name: Wait for PostgreSQL to be ready
+      run: |
+        echo "Waiting for PostgreSQL to be ready..."
+        for i in {1..60}; do
+          if pg_isready -h localhost -p 5432 -U test_user; then
+            echo "PostgreSQL is ready!"
+            break
+          fi
+          echo "Waiting for PostgreSQL... ($i/60)"
+          sleep 2
+        done
+
+        # Test actual connection and create database if needed
+        echo "Testing database connection..."
+        PGPASSWORD=test_pass psql -h localhost -p 5432 -U test_user -d postgres -c "SELECT 1;" || {
+          echo "Failed to connect to PostgreSQL"
+          exit 1
+        }
+
+        # Create test database if it doesn't exist
+        echo "Creating test database..."
+        PGPASSWORD=test_pass psql -h localhost -p 5432 -U test_user -d postgres -c "CREATE DATABASE expensetracker_test;" || echo "Database already exists"
 
     - name: Run tests
       run: ./gradlew test

@@ -1,20 +1,50 @@
-# ExpenseTracker - Spring Boot Application
+# 💰 ExpenseTracker - Spring Boot Application
 
-A Spring Boot application for tracking expenses with PostgreSQL database and Liquibase migrations.
+A modern Spring Boot application for tracking expenses with PostgreSQL database, automated CI/CD pipeline, and Docker deployment.
 
-## Project Overview
+## 🚀 Features
+
+- **User Management**: Complete CRUD operations for user accounts
+- **RESTful API**: Clean REST endpoints with validation
+- **Database Integration**: PostgreSQL with Liquibase migrations
+- **Automated Testing**: Unit and integration tests with PostgreSQL
+- **CI/CD Pipeline**: GitHub Actions with staging/production deployment
+- **Docker Support**: Containerized deployment with Docker Compose
+- **Security Scanning**: OWASP dependency vulnerability checks
+- **Health Monitoring**: Spring Boot Actuator endpoints
+
+## 🛠️ Tech Stack
 
 - **Framework**: Spring Boot 3.5.5
 - **Java Version**: 21
-- **Database**: PostgreSQL
+- **Database**: PostgreSQL 15
 - **Build Tool**: Gradle 8.14.3
 - **Migration Tool**: Liquibase
+- **CI/CD**: GitHub Actions
+- **Containerization**: Docker & Docker Compose
+- **Testing**: JUnit 5, Spring Boot Test
+- **Monitoring**: Spring Boot Actuator
 
-## Prerequisites
+## 📋 API Endpoints
+
+### User Management
+- `GET /api/users` - Get all users
+- `GET /api/users/{id}` - Get user by ID
+- `GET /api/users/username/{username}` - Get user by username
+- `POST /api/users` - Create new user
+
+### Health & Monitoring
+- `GET /actuator/health` - Application health status
+- `GET /actuator/metrics` - Application metrics
+- `GET /actuator/info` - Application information
+
+## 🚀 Quick Start
+
+### Prerequisites
 
 - Java 21 or higher
-- PostgreSQL database server
-- Gradle (included via wrapper)
+- Docker & Docker Compose
+- Git
 
 ## Database Setup
 
